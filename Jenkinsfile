@@ -1,28 +1,44 @@
 pipeline {
-    agent any stages {
+    agent any
+ 
+    stages {
         stage('Checkout') {
             steps {
                 echo 'Source code retrieved from GitHub.'
             }
-        } stage('Build') {
+        } 
+
+        stage('Build') {
             steps {
                 echo 'Building application...' sh './app.sh'
             }
-        } stage('Test') {
+        }
+ 
+        stage('Test') {
             steps {
                 echo 'Running tests...' sh './test.sh'
             }
-        } stage('Package') {
+        } 
+
+        stage('Package') {
             steps {
-                echo 'Packaging application...' sh 'tar -czf application.tar.gz app.sh' archiveArtifacts artifacts: 'application.tar.gz'
+                echo 'Packaging application...' 
+                sh 'tar -czf application.tar.gz app.sh' 
+                archiveArtifacts artifacts: 'application.tar.gz'
             }
         }
-    } post {
+    }
+ 
+    post {
         success {
             echo 'CI pipeline succeeded!'
-        } failure {
+        } 
+
+        failure {
             echo 'CI pipeline failed!'
-        } always {
+        } 
+
+        always {
             echo 'Pipeline finished.'
         }
     }
